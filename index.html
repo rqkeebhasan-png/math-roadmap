@@ -1,1 +1,242 @@
-hello
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CSE Math Roadmap — ৫২ সপ্তাহ (পূর্ণ ট্রি)</title>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef2f7;--card:#fff;--ink:#15202b;--mute:#5b6b7b;--line:#b9c6d4;--chip:#e3eaf2;
+--c0:#2f7d4f;--c1:#c2410c;--c2:#1d5fd1;--c3:#7c3aed;--c4:#b45309;--c5:#0f766e;--c6:#6b7280;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1620;--card:#16222f;--ink:#e6edf4;--mute:#93a4b5;--line:#33475b;--chip:#1f3042;
+--c0:#5cc58a;--c1:#fb923c;--c2:#6ea8ff;--c3:#b794f6;--c4:#f0b04a;--c5:#4fd1c5;--c6:#9ca3af}}
+:root[data-theme="dark"]{--bg:#0e1620;--card:#16222f;--ink:#e6edf4;--mute:#93a4b5;--line:#33475b;--chip:#1f3042;
+--c0:#5cc58a;--c1:#fb923c;--c2:#6ea8ff;--c3:#b794f6;--c4:#f0b04a;--c5:#4fd1c5;--c6:#9ca3af}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 "Hind Siliguri",system-ui,sans-serif}
+main{max-width:780px;margin:0 auto;padding:20px 12px 60px}
+h1{font-size:1.6rem;line-height:1.25;margin:8px 0 4px}
+.sub{color:var(--mute);margin:0 0 14px}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:14px}
+.bar b{font-family:"Fira Code",monospace;font-weight:500}
+.track{height:8px;background:var(--chip);border-radius:6px;margin-top:6px;overflow:hidden}
+.fill{height:100%;width:0;background:var(--c0);transition:width .3s}
+.tools{display:flex;gap:8px;margin:0 0 14px;flex-wrap:wrap}
+button{font:inherit;font-size:.9rem;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:6px 12px;cursor:pointer}
+button:focus-visible,summary:focus-visible,input:focus-visible{outline:2px solid var(--c2);outline-offset:2px}
+.daily{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin-bottom:14px}
+.daily h2{margin:0 0 4px;font-size:1.05rem}
+.daily ul{margin:0;padding-left:18px}
+summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:8px;padding:6px 0}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"▸";color:var(--mute);width:1em;transition:transform .15s;flex:none}
+details[open]>summary::before{transform:rotate(90deg)}
+.ph{border:1px solid var(--line);border-left:6px solid var(--k);border-radius:10px;background:var(--card);margin-bottom:12px;padding:4px 10px;overflow-x:auto}
+.ph>summary{font-weight:700;font-size:1.08rem}
+.wk{margin-left:auto;font-family:"Fira Code",monospace;font-size:.75rem;background:var(--chip);padding:2px 8px;border-radius:6px;white-space:nowrap}
+.cnt{color:var(--mute);font-size:.78rem;font-family:"Fira Code",monospace}
+.tree{margin:0 0 6px 6px;padding-left:12px;border-left:2px solid var(--line)}
+.node{position:relative;padding-left:12px}
+.node::before,.t::before{content:"";position:absolute;left:-12px;width:12px;border-top:2px solid var(--line)}
+.node::before{top:18px}
+.node>details>summary{font-weight:500;color:var(--k)}
+.node .node>details>summary{color:var(--ink)}
+.t{display:flex;gap:8px;align-items:flex-start;padding:1px 0 1px 12px;position:relative}
+.t::before{top:14px}
+.t input{margin-top:7px;accent-color:var(--k);flex:none}
+.t label{cursor:pointer;font-size:.95rem}
+.t input:checked+label{color:var(--mute);text-decoration:line-through}
+.note{font-size:.86rem;color:var(--mute);margin:0 0 6px 20px}
+.rule{font-size:.9rem;color:var(--mute);margin:18px 0 0}
+.t input:checked{cursor:not-allowed}
+#md{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;z-index:20;padding:16px}
+#md.on{display:flex}
+#md form{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;width:100%;max-width:340px}
+#md p{margin:0 0 4px;font-weight:700}
+#md small{display:block;color:var(--mute);margin-bottom:10px}
+#md input{width:100%;font:inherit;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
+#md .err{color:#d33;min-height:1.4em;margin:6px 0;font-size:.9rem}
+#md .row{display:flex;gap:8px;justify-content:flex-end}
+</style>
+</head>
+<body>
+<main>
+<h1>MATHEMATICS FOR CSE</h1>
+<p class="sub">৫২ সপ্তাহ · দিনে ১.৫–২ ঘণ্টা · সপ্তাহে ৬ দিন পড়া + ১ দিন রিভিশন। প্রতিটি শাখার পাশে সপ্তাহ লেখা আছে। টপিক শেষ হলে টিক দিন।</p>
+<div class="bar"><span>শেষ: <b id="pc">0%</b> (<span id="pn">0</span>/<span id="pt">0</span>)</span><div class="track"><div class="fill" id="fl"></div></div></div>
+<div class="tools"><button id="ex">সব খুলুন</button><button id="co">সব বন্ধ করুন</button><button id="th">ডার্ক/লাইট</button></div>
+<section class="daily"><h2>প্রতিদিনের ২ ঘণ্টা</h2><ul>
+<li><b>২০ মিনিট</b> আগের দিনের পড়া না দেখে মনে করা</li>
+<li><b>৪০ মিনিট</b> নতুন টপিক</li>
+<li><b>৪৫ মিনিট</b> সমস্যা সমাধান (৭০% সময় এখানে)</li>
+<li><b>১৫ মিনিট</b> Mistake Book + কোডে প্রয়োগ</li></ul></section>
+<div id="root"></div>
+<p class="rule"><b>রিভিশন চক্র:</b> একই দিন → ১ দিন → ৩ দিন → ৭ দিন → ১৪ দিন → ৩০ দিন → ৯০ দিন। প্রতিটি টপিকে ৮০% সমস্যা নিজে পারলে তবেই পরেরটায় যান।</p>
+</main>
+<div id="md" role="dialog" aria-modal="true" aria-labelledby="mt"><form id="mf" autocomplete="off">
+<p id="mt">টিক তুলতে পাসওয়ার্ড দিন</p><small>একবার টিক দিলে পাসওয়ার্ড ছাড়া তোলা যায় না।</small>
+<input id="mp" type="password" placeholder="পাসওয়ার্ড" aria-label="পাসওয়ার্ড"><div class="err" id="me"></div>
+<div class="row"><button type="button" id="mc">বাতিল</button><button type="submit">টিক তুলুন</button></div></form></div>
+<script>
+// P|phase|weeks ; S|section|weeks|note ; G|group|weeks|leaf,leaf ; L|leaf,leaf (direct leaves of section)
+var RAW=`P|০. FOUNDATION REBUILD|সপ্তাহ ১–১৯|0
+S|A. ARITHMETIC|সপ্তাহ ১–৩|প্রথমে ৫০ প্রশ্নের diagnostic দিন। ৮০%+ হলে সরাসরি Algebra-য়।
+G|1. Number systems|সপ্তাহ ১|Natural numbers,Whole numbers,Integers,Rational numbers,Irrational numbers,Real numbers,Number line
+G|2. Basic operations|সপ্তাহ ১|Addition,Subtraction,Multiplication,Division
+G|3. Fractions|সপ্তাহ ১|Proper/improper fractions,Mixed numbers,Equivalent fractions,Addition/subtraction,Multiplication/division,Fraction simplification
+G|4. Ratios & proportions|সপ্তাহ ২|Ratio,Proportion,Direct proportion,Inverse proportion
+G|5. Percentages|সপ্তাহ ২|Percentage change,Profit/loss,Discount,Compound percentage
+G|6. Powers|সপ্তাহ ২|Positive exponents,Zero exponent,Negative exponent,Fractional exponent
+G|7. Roots|সপ্তাহ ২|Square roots,Cube roots,nth roots
+G|8. Scientific notation|সপ্তাহ ৩|Scientific notation
+G|9. Order of operations|সপ্তাহ ১|Order of operations
+G|10. Approximation|সপ্তাহ ৩|Approximation
+G|11. Significant figures|সপ্তাহ ৩|Significant figures
+G|12. Units & conversions|সপ্তাহ ৩|Units & conversions
+S|B. ALGEBRA ⭐|সপ্তাহ ৪–১২|সপ্তাহ ৯ শেষে ১০০টা mixed problem, লক্ষ্য ৮০%+।
+G|1. Algebraic language|সপ্তাহ ৪|Variables,Constants,Coefficients,Terms,Expressions
+G|2. Algebraic manipulation|সপ্তাহ ৫|Like terms,Distributive property,Expanding,Simplifying,Substitution
+G|3. Equations|সপ্তাহ ৬|Linear equations,Equations with fractions,Equations with brackets,Literal equations,Word problems
+G|4. Simultaneous equations|সপ্তাহ ৭|Two variables,Three variables,Substitution,Elimination,Graphical solution
+G|5. Quadratics|সপ্তাহ ৮|Standard form,Factoring,Quadratic formula,Completing the square,Discriminant,Roots
+G|6. Inequalities|সপ্তাহ ৯|Linear inequalities,Compound inequalities,Quadratic inequalities,Absolute-value inequalities
+G|7. Absolute value|সপ্তাহ ৯|Meaning,Equations,Inequalities
+G|8. Polynomials|সপ্তাহ ১০|Degree,Operations,Polynomial division,Remainder theorem,Factor theorem
+G|9. Factorization|সপ্তাহ ৫|Common factors,Difference of squares,Perfect squares,Cubic identities,Grouping
+G|10. Exponents|সপ্তাহ ১১|Laws of exponents,Negative powers,Fractional powers
+G|11. Radicals|সপ্তাহ ১১|Simplification,Operations,Rationalization
+G|12. Logarithms|সপ্তাহ ১১|Definition,Laws,Change of base,Exponential equations,Logarithmic equations
+G|13. Sequences|সপ্তাহ ১২|Arithmetic sequences,Geometric sequences,Recursive sequences,Explicit formulas
+G|14. Series|সপ্তাহ ১২|Arithmetic series,Geometric series,Infinite geometric series
+G|15. Sigma notation|সপ্তাহ ১২|Summation,Properties,Manipulation
+S|C. FUNCTIONS & GRAPHS ⭐|সপ্তাহ ১৩–১৬|প্রতিদিন ২–৩টা graph নিজে আঁকুন।
+G|1. Coordinate geometry|সপ্তাহ ১৩|Cartesian plane,Coordinates,Distance,Midpoint,Slope
+G|2. Functions|সপ্তাহ ১৪|Definition,Input/output,Domain,Range,Function notation
+G|3. Function types|সপ্তাহ ১৫|Linear,Quadratic,Polynomial,Rational,Absolute-value,Exponential,Logarithmic
+G|4. Graphs|সপ্তাহ ১৫–১৬|Plotting,Intercepts,Slope,Increasing/decreasing,Symmetry
+G|5. Transformations|সপ্তাহ ১৬|Translation,Reflection,Stretch,Compression
+G|6. Composition|সপ্তাহ ১৬|Composition
+G|7. Inverse functions|সপ্তাহ ১৬|Inverse functions
+G|8. Piecewise functions|সপ্তাহ ১৬|Piecewise functions
+S|D. TRIGONOMETRY|সপ্তাহ ১৭–১৯|শেষে ৫০–৭৫টা mixed trig problem।
+G|সপ্তাহ ১৭ — ভিত্তি|সপ্তাহ ১৭|Angles,Degrees,Radians,Right triangles,sin,cos,tan
+G|সপ্তাহ ১৮ — Circle ও identity|সপ্তাহ ১৮|Unit circle,Trig identities,Inverse trig,Trig equations
+G|সপ্তাহ ১৯ — Formula ও graph|সপ্তাহ ১৯|Addition formulas,Double-angle formulas,Half-angle formulas,Trig graphs
+P|১. DISCRETE MATHEMATICS ⭐⭐⭐|সপ্তাহ ২০–৩০|1
+S|A. LOGIC|সপ্তাহ ২০–২১|প্রোগ্রামিং সংযোগ: &&, ||, !
+G|সপ্তাহ ২০|সপ্তাহ ২০|Propositions,Truth values,AND,OR,NOT,XOR,Implication,Biconditional,Truth tables
+G|সপ্তাহ ২১|সপ্তাহ ২১|Logical equivalence,Tautology,Contradiction,Predicates,Universal quantifier,Existential quantifier,Negation of quantified statements
+S|B. SETS|সপ্তাহ ২২|
+L|Set notation,Membership,Subsets,Proper subsets,Union,Intersection,Difference,Complement,Cartesian product,Power sets,Venn diagrams
+S|C. RELATIONS|সপ্তাহ ২৩|
+L|Ordered pairs,Relations,Reflexive,Symmetric,Antisymmetric,Transitive,Equivalence relations,Partial orders
+S|D. FUNCTIONS|সপ্তাহ ২৩|
+L|Injective,Surjective,Bijective,Composition,Inverse
+S|E. PROOF ⭐⭐⭐|সপ্তাহ ২৪|ধীরে করুন। প্রতিদিন ৩–৫টা proof লিখুন।
+L|Mathematical statements,Direct proof,Contrapositive,Contradiction,Cases,Counterexample,Mathematical induction
+S|F. NUMBER THEORY|সপ্তাহ ২৫–২৬|C/Python-এ GCD, sieve, modular power বানান।
+G|সপ্তাহ ২৫|সপ্তাহ ২৫|Divisibility,Prime numbers,Composite numbers,Factors,GCD,LCM,Euclidean algorithm
+G|সপ্তাহ ২৬|সপ্তাহ ২৬|Extended Euclidean algorithm,Modular arithmetic,Congruence,Modular inverse,Fermat's theorem,Euler's theorem,Chinese remainder theorem
+S|G. COMBINATORICS|সপ্তাহ ২৭–২৮|
+G|সপ্তাহ ২৭|সপ্তাহ ২৭|Counting principles,Permutations,Combinations,Binomial coefficients,Binomial theorem,Pigeonhole principle
+G|সপ্তাহ ২৮|সপ্তাহ ২৮|Inclusion-exclusion,Recurrence relations
+S|H. GRAPH THEORY|সপ্তাহ ২৯–৩০|BFS/DFS কোডে বানান: প্রোগ্রামিংয়ের সাথে প্রথম বড় সংযোগ।
+G|সপ্তাহ ২৯ — ধারণা|সপ্তাহ ২৯|Vertices,Edges,Directed graphs,Undirected graphs,Degree,Walk,Trail,Path,Cycle,Connectivity,Trees,Rooted trees,Binary trees,Weighted graphs
+G|সপ্তাহ ৩০ — Algorithm|সপ্তাহ ৩০|Graph representation,BFS,DFS,Shortest paths,Spanning trees,Minimum spanning trees
+P|২. CALCULUS ⭐⭐⭐|সপ্তাহ ৩১–৩৮|2
+S|A. PRECALCULUS REVIEW|সপ্তাহ ৩১|
+L|Functions,Graphs,Trigonometry,Exponentials/logs
+S|B. LIMITS|সপ্তাহ ৩২|
+L|Intuitive limits,One-sided limits,Algebraic limits,Infinite limits,Limits at infinity
+S|C. CONTINUITY|সপ্তাহ ৩৩|
+L|Continuous functions,Discontinuities,Intermediate value theorem
+S|D. DERIVATIVES|সপ্তাহ ৩৪–৩৫|
+L|Derivative concept,Power rule,Product rule,Quotient rule,Chain rule,Implicit differentiation,Higher derivatives
+S|E. APPLICATIONS|সপ্তাহ ৩৬|
+L|Increasing/decreasing,Maxima/minima,Optimization,Related rates,Curve analysis
+S|F. INTEGRATION|সপ্তাহ ৩৭–৩৮|
+L|Antiderivatives,Definite integrals,Fundamental theorem,Substitution,Integration by parts,Partial fractions
+S|G. SERIES|সপ্তাহ ৩৮ (পরিচয়)|পুরো গভীরতা বছর ২-এ।
+L|Sequences,Convergence,Infinite series,Power series,Taylor series,Maclaurin series
+S|H. MULTIVARIABLE CALCULUS|বছর ২ (শুরুতে)|৫২ সপ্তাহের পরিকল্পনায় নেই; Calculus শেষে আলাদা ৪–৬ সপ্তাহ।
+L|Functions of several variables,Partial derivatives,Gradient,Directional derivatives,Multiple integrals,Vector fields,Multivariable optimization
+P|৩. LINEAR ALGEBRA ⭐⭐⭐|সপ্তাহ ৩৯–৪৪|3
+S|A. VECTORS|সপ্তাহ ৩৯|Matrix অপারেশন নিজে কোড করুন।
+L|Vector notation,Vector addition,Scalar multiplication,Length/norm,Dot product,Cross product,Orthogonality
+S|B. MATRICES|সপ্তাহ ৪০|
+L|Matrix notation,Addition,Multiplication,Transpose,Inverse,Rank
+S|C. LINEAR SYSTEMS|সপ্তাহ ৪১|
+L|Ax = b,Gaussian elimination,Row reduction,Pivot variables,Solution spaces
+S|D. VECTOR SPACES|সপ্তাহ ৪২|
+L|Vector spaces,Subspaces,Linear combinations,Span,Linear independence,Basis,Dimension
+S|E. LINEAR TRANSFORMATIONS|সপ্তাহ ৪৩|
+L|Transformation,Kernel,Range,Matrix representation
+S|F. DETERMINANTS|সপ্তাহ ৪৪|
+L|Determinant,Properties,Geometric meaning
+S|G. EIGENVALUES|সপ্তাহ ৪৪|
+L|Eigenvalues,Eigenvectors,Characteristic equation,Diagonalization
+P|৪. PROBABILITY & STATISTICS ⭐⭐⭐|সপ্তাহ ৪৫–৪৯|4
+S|A. PROBABILITY FOUNDATION|সপ্তাহ ৪৫|সিমুলেশন কোড করে যাচাই করুন।
+L|Sample space,Events,Probability axioms,Addition rule,Multiplication rule
+S|B. CONDITIONAL PROBABILITY|সপ্তাহ ৪৬|
+L|Conditional probability,Independence,Bayes' theorem,Total probability
+S|C. RANDOM VARIABLES|সপ্তাহ ৪৭|
+L|Discrete random variables,Continuous random variables,PMF,PDF,CDF
+S|D. DISTRIBUTIONS|সপ্তাহ ৪৮|
+L|Bernoulli,Binomial,Geometric,Poisson,Uniform,Exponential,Normal
+S|E. EXPECTATION|সপ্তাহ ৪৯|
+L|Expected value,Variance,Standard deviation,Covariance,Correlation
+S|F. STATISTICS|সপ্তাহ ৪৯|
+L|Mean,Median,Mode,Sampling,Estimation,Confidence intervals,Hypothesis testing,Regression
+P|CONSOLIDATION (রিভিশন)|সপ্তাহ ৫০–৫২|5
+S|রিভিশন ও ফাইনাল টেস্ট|সপ্তাহ ৫০–৫২|ফাইনাল: Algebra ২০%, Discrete ২৫%, Calculus ২০%, Linear Algebra ২০%, Probability ১৫%।
+G|সপ্তাহ ৫০|সপ্তাহ ৫০|Algebra + Discrete রিভিশন
+G|সপ্তাহ ৫১|সপ্তাহ ৫১|Calculus + Linear Algebra রিভিশন
+G|সপ্তাহ ৫২|সপ্তাহ ৫২|Probability + mixed CSE math টেস্ট
+P|৫. ADVANCED / PRO|বছর ২+|6
+S|A. REAL ANALYSIS|বছর ২|Proof-এর পরিপক্বতা ছাড়া শুরু করবেন না।
+L|Logic & proof,Real numbers,Sequences,Limits,Continuity,Differentiation,Riemann integration,Series & convergence
+S|B. ABSTRACT ALGEBRA|বছর ২|
+L|Groups,Subgroups,Cyclic groups,Permutation groups,Homomorphisms,Rings,Integral domains,Fields
+S|C. OPTIMIZATION|বছর ২+|
+L|Optimization problems,Convex sets,Convex functions,Gradient descent,Newton's method,Constrained optimization,Lagrange multipliers,Linear programming
+S|D. NUMERICAL METHODS|বছর ২+|
+L|Numerical errors,Root finding,Bisection,Newton-Raphson,Numerical differentiation,Numerical integration,Interpolation,Numerical linear algebra,Approximation`;
+var KEY="mathroadmap-v2",S={};
+try{S=JSON.parse(localStorage.getItem(KEY)||"{}")}catch(e){S={}}
+var root=document.getElementById("root"),total=0,id=0,out="",inS=false,inG=false,first=true;
+function leaves(a){return a.split(",").map(function(t){var i="t"+(id++);total++;
+ return '<div class="t"><input type="checkbox" id="'+i+'"'+(S[i]?' checked':'')+'><label for="'+i+'">'+t+'</label></div>'}).join("")}
+function closeG(){if(inG){out+='</div></details></div>';inG=false}}
+function closeS(){closeG();if(inS){out+='</div></details></div>';inS=false}}
+function closeP(){closeS();if(!first)out+='</div></details>'}
+RAW.split("\n").forEach(function(l){var p=l.split("|"),t=p[0];
+ if(t==="P"){closeP();out+='<details class="ph" style="--k:var(--c'+p[3]+')"'+(first?' open':'')+'><summary>'+p[1]+' <span class="cnt"></span><span class="wk">'+p[2]+'</span></summary><div class="tree">';first=false}
+ else if(t==="S"){closeS();out+='<div class="node"><details><summary>'+p[1]+'<span class="wk">'+p[2]+'</span></summary>'+(p[3]?'<div class="note">'+p[3]+'</div>':'')+'<div class="tree">';inS=true}
+ else if(t==="G"){closeG();out+='<div class="node"><details><summary>'+p[1]+(p[2]&&p[2]!==p[1]?'<span class="wk">'+p[2]+'</span>':'')+'</summary><div class="tree">'+leaves(p[3]);inG=true}
+ else if(t==="L"){out+=leaves(p[1])}});
+closeP();root.innerHTML=out;
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function upd(){var d=0;for(var k in S)if(S[k])d++;var p=total?Math.round(d/total*100):0;
+ pc.textContent=p+"%";pn.textContent=d;pt.textContent=total;fl.style.width=p+"%";
+ document.querySelectorAll(".ph").forEach(function(ph){ph.querySelector(".cnt").textContent=ph.querySelectorAll("input:checked").length+"/"+ph.querySelectorAll("input").length})}
+var pend=null,PW="UkFLSUI=";
+function closeM(){md.classList.remove("on");mp.value="";me.textContent="";pend=null}
+root.addEventListener("click",function(e){var c=e.target;
+ if(c.type==="checkbox"&&S[c.id]){e.preventDefault();pend=c;setTimeout(function(){c.checked=true;md.classList.add("on");mp.focus()},0)}});
+root.addEventListener("change",function(e){if(e.target.type==="checkbox"){S[e.target.id]=e.target.checked;save();upd()}});
+mf.onsubmit=function(e){e.preventDefault();
+ if(btoa(mp.value)===PW){var c=pend;closeM();c.checked=false;S[c.id]=false;save();upd()}
+ else{me.textContent="ভুল পাসওয়ার্ড। টিক থেকে যাবে।";mp.select()}};
+mc.onclick=closeM;
+md.addEventListener("click",function(e){if(e.target===md)closeM()});
+document.addEventListener("keydown",function(e){if(e.key==="Escape")closeM()});
+ex.onclick=function(){document.querySelectorAll("details").forEach(function(x){x.open=true})};
+co.onclick=function(){document.querySelectorAll("details").forEach(function(x){x.open=false})};
+th.onclick=function(){var r=document.documentElement,dk=r.dataset.theme?r.dataset.theme==="dark":matchMedia("(prefers-color-scheme:dark)").matches;r.dataset.theme=dk?"light":"dark"};
+upd();
+</script>
+</body>
+</html>
