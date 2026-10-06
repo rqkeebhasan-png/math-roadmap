@@ -16,12 +16,11 @@ d.innerHTML='<div class="dh">Your 52-Week Journey</div>'
 +'<div class="dc dm"><h3>TODAY\'S MISSION</h3><div id="dmw"></div><div class="tt" id="dmt"></div><div id="dmx" style="color:var(--mute)"></div><div>2h estimated</div><button class="go" id="dgo">▶ START TODAY</button></div>'
 +'<div class="dc"><h3>CONTINUE LEARNING</h3><div id="dcl"></div></div>'
 +'<div class="dc"><h3>⚠️ NEEDS REVIEW</h3><div id="drv"></div></div>'
-+'<div class="dc"><h3>ROADMAP</h3><div class="rm" id="drm"></div></div>';
+
+;
 var sub=document.querySelector(".sub");sub.parentNode.insertBefore(d,sub.nextSibling);
 var $=function(i){return document.getElementById(i)};
-["Foundation","Discrete Mathematics","Calculus","Linear Algebra","Probability & Statistics","Consolidation","Advanced / Pro"].forEach(function(n,i){
- var b=document.createElement("button");b.innerHTML="<i>0"+(i+1)+"</i>"+n;
- b.onclick=function(){var p=document.querySelectorAll(".ph")[i];if(p){p.open=true;p.scrollIntoView({behavior:"smooth"})}};$("drm").appendChild(b)});
+
 function grp(inp){var dt=inp.closest("details"),s=dt.querySelector("summary"),w=s.querySelector(".wk");
  return{n:s.firstChild.textContent.trim(),w:w?w.textContent:""}}
 function dash(){
