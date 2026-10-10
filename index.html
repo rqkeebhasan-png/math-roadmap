@@ -49,28 +49,34 @@ details[open]>summary::before{transform:rotate(90deg)}
 .rl{font-size:.74rem;color:var(--mute);min-width:84px}
 .none{font-size:.78rem;color:var(--mute)}
 .chip{font:inherit;font-size:.76rem;padding:1px 10px;border:1px solid var(--k,var(--line));color:var(--k,var(--ink));background:transparent;border-radius:999px;cursor:pointer}
-.chip.on{background:var(--k);color:#fff}
 .chip.ghost{--k:var(--mute)}
 .flash{animation:fl 1.6s ease-out}
 @keyframes fl{0%{background:rgba(37,99,235,.14)}100%{background:transparent}}
 
-/* prerequisite map (simple) */
+/* prerequisite map */
 .map{border:1px solid var(--line);border-radius:12px;background:var(--card);margin-bottom:14px;padding:2px 12px 12px;box-shadow:0 1px 2px rgba(16,24,40,.04)}
 .map>summary{font-weight:600;font-size:1.02rem}
 .hint{font-size:.82rem;color:var(--mute);margin:0 0 8px}
-.tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
-.tab{border-color:var(--k);color:var(--k);padding:3px 12px;font-size:.8rem}
-.tab.on{background:var(--k);color:#fff}
-.tops{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px}
-.panel{border-top:1px solid var(--line);padding-top:12px;display:grid;gap:10px;justify-items:center}
-.flow{display:grid;justify-items:center;gap:2px;width:100%}
-.fr{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
-.fa{color:var(--mute);line-height:1.1;font-size:.9rem}
-.fb{display:flex;flex-direction:column;align-items:center;border:1px solid var(--k);color:var(--ink);background:var(--card);border-radius:10px;padding:3px 12px;font-size:.82rem;line-height:1.35}
-.fb small{font:400 .66rem "Fira Code",monospace;color:var(--mute)}
-.fb.cur{background:var(--k);color:#fff;font-weight:600}
-.fb.cur small{color:rgba(255,255,255,.85)}
-.nx{display:flex;flex-wrap:wrap;gap:5px;align-items:center;justify-content:center}
+.legend{display:flex;flex-wrap:wrap;gap:4px 12px;margin:0 0 8px;font-size:.76rem;color:var(--mute)}
+.legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:baseline}
+.mapwrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--bg);padding:6px}
+.mapwrap svg{display:block;max-width:none}
+.mn{cursor:pointer;transition:opacity .15s}
+.mn rect.bx{fill:var(--card);stroke:var(--k);stroke-width:1}
+.mn rect.bar{fill:var(--k)}
+.mn text.mt{fill:var(--ink);font:500 11px Inter,"Hind Siliguri",sans-serif}
+.mn text.mw{fill:var(--mute);font:400 9px "Hind Siliguri",sans-serif}
+.mn.sel rect.bx{stroke-width:2.2}
+.mn.dim{opacity:.2}
+.ed{fill:none;stroke:var(--k);stroke-width:1.1;opacity:.35;transition:opacity .15s}
+.ed.on{opacity:.95;stroke-width:1.9}
+.ed.dim{opacity:.06}
+.panel{margin-top:10px;border-top:1px solid var(--line);padding-top:10px;display:grid;gap:6px}
+.pn-t{display:flex;align-items:center;gap:8px}
+.pn-t b{color:var(--k);font-weight:600}
+.pn-r{display:flex;flex-wrap:wrap;gap:5px;align-items:center}
+.pn-r i{font-style:normal;color:var(--mute);font-size:.8rem}
+.cur{font-size:.8rem;font-weight:600;color:var(--k)}
 
 /* password dialog */
 #md{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;z-index:20;padding:16px}
@@ -89,9 +95,9 @@ details[open]>summary::before{transform:rotate(90deg)}
 <p class="sub">৫২ সপ্তাহ · দিনে ১.৫–২ ঘণ্টা · সপ্তাহে ৬ দিন পড়া + ১ দিন রিভিশন। প্রতিটি শাখার পাশে সপ্তাহ লেখা আছে। টপিক শেষ হলে টিক দিন।</p>
 <div class="tools"><button id="ex">সব খুলুন</button><button id="co">সব বন্ধ করুন</button><button id="th">ডার্ক/লাইট</button></div>
 <details class="map" id="mapd" open><summary>Prerequisite map <span class="wk">কোনটির আগে কোনটি</span></summary>
-<p class="hint">একটি branch বেছে topic ট্যাপ করুন — আগে কী কী শিখতে হবে দেখাবে।</p>
-<div class="tabs" id="tb"></div>
-<div class="tops" id="tp"></div>
+<p class="hint">যেকোনো topic-এ ট্যাপ করুন — তার আগের ও পরের সম্পর্ক highlight হবে। ডানে স্ক্রল করুন →</p>
+<div class="legend" id="lg"></div>
+<div class="mapwrap" id="mapw"></div>
 <div class="panel" id="pn"></div></details>
 <div id="root"></div>
 </main>
@@ -235,7 +241,6 @@ ra:["proof","cser"],aa:["proof","nt"],opt:["mvc","eig"],nm:["int","eig"]};
 // Related: সম্পর্কিত কিন্তু আগে-পরের নির্ভরতা নয় (দুই দিকেই দেখায়)
 var REL={alg:["nt","lsys","cser"],func:["dfunc"],trig:["vec"],logic:["proof"],sets:["comb"],rel:["dfunc"],proof:["ra"],nt:["comb"],comb:["pf","graph"],lim:["cser"],der:["opt"],int:["pf"],mvc:["opt"],vec:["mvc"],mat:["lt"],eig:["opt"],rv:["dist"]};
 var LBL={dfunc:"Discrete functions",app:"Deriv. applications",cser:"Series (calculus)",pre:"Precalculus review",int:"Integration",exp:"Expectation",lt:"Linear transform."};
-var BR=[[0,"Foundation"],[1,"Discrete"],[2,"Calculus"],[3,"Linear Algebra"],[4,"Probability"],[6,"Advanced"]];
 function nm(t){var s=t.replace(/^[A-Z]\.\s*/,"").replace(/⭐/g,"").trim();return s.charAt(0)+s.slice(1).toLowerCase()}
 
 // ---- tick state (saved in this browser) ----
@@ -275,23 +280,39 @@ document.querySelectorAll(".rel").forEach(function(el){var k=el.getAttribute("da
  h+='<div class="rr"><button class="chip ghost" data-map="'+k+'">map-এ দেখুন ↑</button></div>';
  el.innerHTML=h});
 
-// ---- simple prerequisite map: branch tabs -> topic -> vertical chain ----
-function tabs(br){document.getElementById("tb").innerHTML=BR.map(function(b){return '<button class="tab'+(b[0]==br?' on':'')+'" data-br="'+b[0]+'" style="--k:var(--c'+b[0]+')">'+b[1]+'</button>'}).join("")}
-function tops(br,cur){document.getElementById("tp").innerHTML=ORD.filter(function(k){return NK[k].c==br}).map(function(k){return '<button class="chip'+(k===cur?' on':'')+'" data-sel="'+k+'" style="--k:var(--c'+br+')">'+NK[k].name+'</button>'}).join("")}
-function box(k,cur){var n=NK[k];return '<button class="fb'+(cur?' cur':'')+'" data-sel="'+k+'" style="--k:var(--c'+n.c+')">'+n.name+'<small>'+n.wk+'</small></button>'}
+// ---- prerequisite map (SVG) ----
+var W=136,H=38,PX=176,PY=48,cols={},X={},Y={};
+ORD.forEach(function(k){(cols[LV[k]]=cols[LV[k]]||[]).push(k)});
+function bc(k){var s=0,n=0;(PRE[k]||[]).forEach(function(p){s+=Y[p];n++});return n?s/n:0}
+var levels=Object.keys(cols).map(Number).sort(function(a,b){return a-b}),maxRows=0;
+levels.forEach(function(l){var a=cols[l];if(l>0)a.sort(function(x,y){return bc(x)-bc(y)});a.forEach(function(k,i){X[k]=16+l*PX;Y[k]=i});maxRows=Math.max(maxRows,a.length)});
+var SW=16+levels.length*PX,SH=maxRows*PY+24;
+function yy(k){return 12+Y[k]*PY}
+var svg='<svg width="'+SW+'" height="'+SH+'" viewBox="0 0 '+SW+' '+SH+'" xmlns="http://www.w3.org/2000/svg">';
+ORD.forEach(function(k){(PRE[k]||[]).forEach(function(p){var x1=X[p]+W,y1=yy(p)+H/2,x2=X[k],y2=yy(k)+H/2;
+ svg+='<path class="ed" data-a="'+p+'" data-b="'+k+'" style="--k:var(--c'+NK[p].c+')" d="M'+x1+','+y1+' C'+(x1+36)+','+y1+' '+(x2-36)+','+y2+' '+x2+','+y2+'"/>'})});
+ORD.forEach(function(k){var n=NK[k];
+ svg+='<g class="mn" data-sel="'+k+'" style="--k:var(--c'+n.c+')" transform="translate('+X[k]+','+yy(k)+')"><rect class="bx" width="'+W+'" height="'+H+'" rx="8"/><rect class="bar" x="0" y="8" width="3" height="'+(H-16)+'" rx="1.5"/><text class="mt" x="12" y="16">'+n.name+'</text><text class="mw" x="12" y="30">'+n.wk+'</text></g>'});
+svg+='</svg>';
+document.getElementById("mapw").innerHTML=svg;
+document.getElementById("lg").innerHTML=[[0,"Foundation"],[1,"Discrete"],[2,"Calculus"],[3,"Linear Algebra"],[4,"Probability"],[6,"Advanced"]].map(function(x){return '<span><i style="background:var(--c'+x[0]+')"></i>'+x[1]+'</span>'}).join("");
+
 function sel(k){
- var n=NK[k],anc={};
+ var anc={},desc={};
  (function a(x){(PRE[x]||[]).forEach(function(p){if(!anc[p]){anc[p]=1;a(p)}})})(k);
- tabs(n.c);tops(n.c,k);
- var list=Object.keys(anc),rows={},h='';
- list.forEach(function(x){(rows[LV[x]]=rows[LV[x]]||[]).push(x)});
- var ls=Object.keys(rows).map(Number).sort(function(a,b){return a-b});
- h+='<div class="flow">';
- if(!list.length)h+='<div class="none">এটাই শুরু — আগে কিছু লাগবে না</div>';
- ls.forEach(function(l){h+='<div class="fr">'+rows[l].map(function(x){return box(x)}).join('')+'</div><div class="fa">↓</div>'});
- h+='<div class="fr">'+box(k,1)+'</div></div>';
- if(DOWN[k].length)h+='<div class="nx"><span class="rl">এরপর:</span>'+chips(DOWN[k],'data-sel')+'</div>';
- h+='<button class="chip ghost" data-go="'+k+'">রোডম্যাপে খুলুন ↓</button>';
+ (function d(x){DOWN[x].forEach(function(q){if(!desc[q]){desc[q]=1;d(q)}})})(k);
+ document.querySelectorAll(".mn").forEach(function(g){var id=g.getAttribute("data-sel");g.setAttribute("class","mn"+(id===k?" sel":(anc[id]||desc[id])?"":" dim"))});
+ document.querySelectorAll(".ed").forEach(function(e){var a=e.getAttribute("data-a"),b=e.getAttribute("data-b"),
+  up=(a===k||anc[a])&&(b===k||anc[b]),dn=(a===k||desc[a])&&(b===k||desc[b]);
+  e.setAttribute("class","ed"+((up||dn)?" on":" dim"))});
+ var n=NK[k],list=Object.keys(anc).sort(function(a,b){return LV[a]-LV[b]||ORD.indexOf(a)-ORD.indexOf(b)}),h='';
+ h+='<div class="pn-t" style="--k:var(--c'+n.c+')"><b>'+n.name+'</b><span class="wk">'+n.wk+'</span></div>';
+ h+='<div class="pn-r"><span class="rl">শেখার ক্রম</span>';
+ if(list.length){var prev=-1;list.forEach(function(x,i){if(i)h+='<i>'+(LV[x]===prev?'·':'→')+'</i>';prev=LV[x];h+=chips([x])});h+='<i>→</i><span class="cur" style="--k:var(--c'+n.c+')">'+n.name+'</span>'}
+ else h+='<span class="none">এটাই শুরু — আগে কিছু লাগবে না</span>';
+ h+='</div>';
+ if(DOWN[k].length)h+='<div class="pn-r"><span class="rl">এরপর খুলবে</span>'+chips(DOWN[k])+'</div>';
+ h+='<div class="pn-r"><button class="chip ghost" data-go="'+k+'">রোডম্যাপে খুলুন ↓</button></div>';
  document.getElementById("pn").innerHTML=h}
 
 function goTo(k){var el=document.getElementById("n-"+k);if(!el)return;
@@ -299,9 +320,8 @@ function goTo(k){var el=document.getElementById("n-"+k);if(!el)return;
  var d=el.querySelector("details");if(d)d.open=true;
  el.scrollIntoView({behavior:"smooth",block:"start"});el.classList.remove("flash");void el.offsetWidth;el.classList.add("flash")}
 
-document.addEventListener("click",function(e){var t=e.target,m=t.closest?t.closest("[data-sel],[data-go],[data-map],[data-br]"):null;if(!m)return;
+document.addEventListener("click",function(e){var t=e.target,m=t.closest?t.closest("[data-sel],[data-go],[data-map]"):null;if(!m)return;
  if(m.hasAttribute("data-sel"))sel(m.getAttribute("data-sel"));
- else if(m.hasAttribute("data-br")){var b=m.getAttribute("data-br"),f=ORD.filter(function(k){return NK[k].c==b})[0];if(f)sel(f)}
  else if(m.hasAttribute("data-go"))goTo(m.getAttribute("data-go"));
  else if(m.hasAttribute("data-map")){sel(m.getAttribute("data-map"));var md=document.getElementById("mapd");md.open=true;md.scrollIntoView({behavior:"smooth",block:"start"})}});
 
