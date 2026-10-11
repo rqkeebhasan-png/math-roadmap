@@ -18,7 +18,7 @@ html{scroll-padding-top:env(safe-area-inset-top,0px)}
 body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 "Inter","Hind Siliguri",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
 button{font:inherit;font-size:.85rem;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:5px 14px;cursor:pointer}
-button:focus-visible,a:focus-visible{outline:2px solid var(--c2);outline-offset:2px}
+button:focus-visible,a:focus-visible,summary:focus-visible,input:focus-visible{outline:2px solid var(--c2);outline-offset:2px}
 
 /* layout */
 .app{display:grid;grid-template-columns:264px minmax(0,1fr);min-height:100vh}
@@ -86,8 +86,10 @@ h1{font-size:1.5rem;line-height:1.25;margin:6px 0 4px;font-weight:600;letter-spa
   <main id="main"></main>
  </div>
 </div>
+<!-- Language content files. Each one registers window.LANG_CONTENT[id]={ov,render,init}. To add a language: create <id>.js (see c.js) and add a script tag here. -->
+<script src="c.js"></script>
 <script>
-// To add content later: fill in the `body` field of a language below (HTML string) — layout stays the same.
+// Fallback: a language without a content file can use the simple `body` field (HTML string).
 var LANGS=[
  {id:"c",name:"C",tag:".c",c:2,desc:"সিস্টেম প্রোগ্রামিংয়ের ভিত্তি — মেমরি, পয়েন্টার ও কম্পিউটারের কাজ করার ধরন বোঝার জন্য।",body:""},
  {id:"cpp",name:"C++",tag:".cpp",c:3,desc:"C-এর উপর OOP ও STL — প্রতিযোগিতামূলক প্রোগ্রামিং ও পারফরম্যান্স-সংবেদনশীল কাজের জন্য।",body:""},
@@ -107,13 +109,14 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")menu(false)}
 function show(){
  var id=(location.hash||"").slice(1),i=0;
  LANGS.forEach(function(l,n){if(l.id===id)i=n});
- var l=LANGS[i],p=LANGS[i-1],n=LANGS[i+1];
+ var l=LANGS[i],p=LANGS[i-1],n=LANGS[i+1],X=(window.LANG_CONTENT||{})[l.id]||{};
  nav.querySelectorAll("a").forEach(function(a){var on=a.getAttribute("data-id")===l.id;a.classList.toggle("on",on);if(on)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
  var h='<p class="crumb">Programming / '+l.name+'</p><h1>'+l.name.toUpperCase()+'</h1><p class="sub">'+l.desc+'</p>';
- h+='<div class="card" style="--k:var(--c'+l.c+')"><h2>Overview<span class="wk">'+l.tag+'</span></h2><p>এই সেকশনের কনটেন্ট পরে যোগ করা হবে।</p></div>';
- h+=l.body?l.body:'<div class="soon">কনটেন্ট শীঘ্রই আসছে — Coming soon</div>';
+ h+='<div class="card" style="--k:var(--c'+l.c+')"><h2>Overview<span class="wk">'+l.tag+'</span></h2><p>'+(X.ov||'এই সেকশনের কনটেন্ট পরে যোগ হবে।')+'</p></div>';
+ h+=X.render?X.render():(l.body?l.body:'<div class="soon">কনটেন্ট শীঘ্রই আসছে — Coming soon</div>');
  h+='<div class="pager">'+(p?'<a href="#'+p.id+'" style="--k:var(--c'+p.c+')"><small>← আগের</small><b>'+p.name+'</b></a>':'<span></span>')+(n?'<a class="next" href="#'+n.id+'" style="--k:var(--c'+n.c+')"><small>পরের →</small><b>'+n.name+'</b></a>':'<span></span>')+'</div>';
  main.innerHTML=h;
+ if(X.init)X.init(main);
  var cn=$("curn");cn.textContent=l.name;cn.style.setProperty("--k","var(--c"+l.c+")");
  document.title=l.name+" — Programming Languages";
  menu(false);window.scrollTo(0,0)}
