@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Programming Languages — CSE</title>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--ink:#1a1d23;--mute:#6b7280;--line:#e5e7eb;--chip:#f1f3f6;
+--c0:#2f8f5f;--c1:#d2622a;--c2:#2563eb;--c3:#7c4dff;--c4:#c08a14;--c5:#0f8a7e;--c6:#6b7280;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-theme="dark"]{--bg:#0f1318;--card:#171c23;--ink:#e8ecf1;--mute:#98a2b0;--line:#2a323d;--chip:#1e252e;
+--c0:#5cc58a;--c1:#fb923c;--c2:#6ea8ff;--c3:#b794f6;--c4:#f0b04a;--c5:#4fd1c5;--c6:#9ca3af}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1318;--card:#171c23;--ink:#e8ecf1;--mute:#98a2b0;--line:#2a323d;--chip:#1e252e;
+--c0:#5cc58a;--c1:#fb923c;--c2:#6ea8ff;--c3:#b794f6;--c4:#f0b04a;--c5:#4fd1c5;--c6:#9ca3af}}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 "Inter","Hind Siliguri",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font:inherit;font-size:.85rem;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:5px 14px;cursor:pointer}
+button:focus-visible,a:focus-visible{outline:2px solid var(--c2);outline-offset:2px}
+
+/* layout */
+.app{display:grid;grid-template-columns:264px minmax(0,1fr);min-height:100vh}
+.side{position:sticky;top:env(safe-area-inset-top,0px);align-self:start;height:calc(100vh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));overflow-y:auto;background:var(--card);border-right:1px solid var(--line);padding:18px 12px;display:flex;flex-direction:column;gap:14px}
+.brand{padding:2px 8px}
+.brand b{display:block;font-size:1rem;font-weight:600;letter-spacing:.02em}
+.brand span{font-size:.8rem;color:var(--mute)}
+.home{display:flex;align-items:center;gap:8px;padding:7px 10px;border:1px solid var(--line);border-radius:10px;font-size:.88rem;color:var(--mute)}
+.home:hover{color:var(--ink);background:var(--chip)}
+.lbl{font-family:"Fira Code",monospace;font-size:.68rem;letter-spacing:.08em;color:var(--mute);padding:0 10px;text-transform:uppercase}
+nav{display:grid;gap:4px}
+nav a{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:10px;border:1px solid transparent;border-left:3px solid transparent;font-weight:500;font-size:.94rem}
+nav a i{width:9px;height:9px;border-radius:50%;background:var(--k);flex:none}
+nav a .wk{margin-left:auto;font-family:"Fira Code",monospace;font-size:.68rem;color:var(--mute);border:1px solid var(--line);padding:0 8px;border-radius:999px;font-weight:400}
+nav a:hover{background:var(--chip)}
+nav a.on{background:var(--chip);border-color:var(--line);border-left-color:var(--k);color:var(--k)}
+.foot{margin-top:auto;padding:0 8px}
+
+/* top bar (mobile) */
+.top{display:none}
+.scrim{display:none}
+
+/* content */
+main{max-width:820px;width:100%;margin:0 auto;padding:22px 18px 64px}
+.crumb{font-size:.82rem;color:var(--mute);margin:0 0 6px}
+h1{font-size:1.5rem;line-height:1.25;margin:6px 0 4px;font-weight:600;letter-spacing:.02em}
+.sub{color:var(--mute);margin:0 0 18px;font-size:.92rem}
+.card{border:1px solid var(--line);border-left:3px solid var(--k);border-radius:12px;background:var(--card);padding:16px 18px;margin-bottom:12px;box-shadow:0 1px 2px rgba(16,24,40,.04)}
+.card h2{margin:0 0 4px;font-size:1.02rem;font-weight:600;color:var(--k);display:flex;align-items:center;gap:8px}
+.card h2 .wk{margin-left:auto;font-family:"Fira Code",monospace;font-size:.7rem;color:var(--mute);border:1px solid var(--line);padding:1px 9px;border-radius:999px;font-weight:400}
+.card p{margin:0;color:var(--mute);font-size:.92rem}
+.soon{border:1px dashed var(--line);border-radius:12px;padding:26px 16px;text-align:center;color:var(--mute);font-size:.9rem;background:transparent}
+.pager{display:flex;gap:10px;justify-content:space-between;margin-top:18px}
+.pager a{flex:1;border:1px solid var(--line);border-radius:12px;background:var(--card);padding:10px 14px;font-size:.88rem}
+.pager a small{display:block;color:var(--mute);font-size:.72rem}
+.pager a b{color:var(--k);font-weight:600}
+.pager a:hover{background:var(--chip)}
+.pager a.next{text-align:right}
+
+@media (max-width:860px){
+ .app{display:block}
+ .top{display:flex;align-items:center;gap:10px;position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--bg);border-bottom:1px solid var(--line);padding:10px 14px}
+ .top b{font-weight:600;font-size:.95rem}
+ .top .cur{margin-left:auto;font-family:"Fira Code",monospace;font-size:.72rem;color:var(--k);border:1px solid var(--line);padding:1px 9px;border-radius:999px}
+ .side{position:fixed;z-index:30;top:env(safe-area-inset-top,0px);bottom:env(safe-area-inset-bottom,0px);left:0;width:min(82vw,300px);height:auto;transform:translateX(-102%);transition:transform .2s ease;box-shadow:0 0 0 rgba(0,0,0,0)}
+ .side.open{transform:none;box-shadow:4px 0 24px rgba(0,0,0,.18)}
+ .scrim{position:fixed;inset:0;z-index:20;background:rgba(0,0,0,.4);display:none}
+ .scrim.on{display:block}
+ main{padding:18px 14px 56px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+ <aside class="side" id="side" aria-label="Programming languages">
+  <div class="brand"><b>PROGRAMMING</b><span>ভাষা অনুযায়ী নোট ও রিসোর্স</span></div>
+  <a class="home" href="index.html">← Math Roadmap (Home)</a>
+  <div class="lbl">Languages</div>
+  <nav id="nav"></nav>
+  <div class="foot"><button id="th">ডার্ক/লাইট</button></div>
+ </aside>
+ <div class="scrim" id="scrim"></div>
+ <div style="min-width:0">
+  <div class="top"><button id="mb" aria-label="Open languages menu" aria-expanded="false">☰ Languages</button><span class="cur" id="curn"></span></div>
+  <main id="main"></main>
+ </div>
+</div>
+<script>
+// To add content later: fill in the `body` field of a language below (HTML string) — layout stays the same.
+var LANGS=[
+ {id:"c",name:"C",tag:".c",c:2,desc:"সিস্টেম প্রোগ্রামিংয়ের ভিত্তি — মেমরি, পয়েন্টার ও কম্পিউটারের কাজ করার ধরন বোঝার জন্য।",body:""},
+ {id:"cpp",name:"C++",tag:".cpp",c:3,desc:"C-এর উপর OOP ও STL — প্রতিযোগিতামূলক প্রোগ্রামিং ও পারফরম্যান্স-সংবেদনশীল কাজের জন্য।",body:""},
+ {id:"java",name:"Java",tag:".java",c:1,desc:"অবজেক্ট-ওরিয়েন্টেড প্রোগ্রামিং, বড় অ্যাপ্লিকেশন ও এন্টারপ্রাইজ সফটওয়্যারের জন্য।",body:""},
+ {id:"python",name:"Python",tag:".py",c:0,desc:"সহজ সিনট্যাক্স — স্ক্রিপ্টিং, ডেটা, অটোমেশন ও দ্রুত প্রোটোটাইপের জন্য।",body:""},
+ {id:"javascript",name:"JavaScript",tag:".js",c:4,desc:"ওয়েবের ভাষা — ফ্রন্টএন্ড, ব্যাকএন্ড (Node.js) ও ইন্টারেক্টিভ অ্যাপের জন্য।",body:""}
+];
+var $=function(i){return document.getElementById(i)};
+var nav=$("nav"),main=$("main"),side=$("side"),scrim=$("scrim"),mb=$("mb");
+nav.innerHTML=LANGS.map(function(l){return '<a href="#'+l.id+'" data-id="'+l.id+'" style="--k:var(--c'+l.c+')"><i></i>'+l.name+'<span class="wk">'+l.tag+'</span></a>'}).join("");
+
+function menu(o){side.classList.toggle("open",o);scrim.classList.toggle("on",o);mb.setAttribute("aria-expanded",o?"true":"false")}
+mb.onclick=function(){menu(!side.classList.contains("open"))};
+scrim.onclick=function(){menu(false)};
+document.addEventListener("keydown",function(e){if(e.key==="Escape")menu(false)});
+
+function show(){
+ var id=(location.hash||"").slice(1),i=0;
+ LANGS.forEach(function(l,n){if(l.id===id)i=n});
+ var l=LANGS[i],p=LANGS[i-1],n=LANGS[i+1];
+ nav.querySelectorAll("a").forEach(function(a){var on=a.getAttribute("data-id")===l.id;a.classList.toggle("on",on);if(on)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
+ var h='<p class="crumb">Programming / '+l.name+'</p><h1>'+l.name.toUpperCase()+'</h1><p class="sub">'+l.desc+'</p>';
+ h+='<div class="card" style="--k:var(--c'+l.c+')"><h2>Overview<span class="wk">'+l.tag+'</span></h2><p>এই সেকশনের কনটেন্ট পরে যোগ করা হবে।</p></div>';
+ h+=l.body?l.body:'<div class="soon">কনটেন্ট শীঘ্রই আসছে — Coming soon</div>';
+ h+='<div class="pager">'+(p?'<a href="#'+p.id+'" style="--k:var(--c'+p.c+')"><small>← আগের</small><b>'+p.name+'</b></a>':'<span></span>')+(n?'<a class="next" href="#'+n.id+'" style="--k:var(--c'+n.c+')"><small>পরের →</small><b>'+n.name+'</b></a>':'<span></span>')+'</div>';
+ main.innerHTML=h;
+ var cn=$("curn");cn.textContent=l.name;cn.style.setProperty("--k","var(--c"+l.c+")");
+ document.title=l.name+" — Programming Languages";
+ menu(false);window.scrollTo(0,0)}
+window.addEventListener("hashchange",show);
+$("th").onclick=function(){var r=document.documentElement,dark=r.dataset.theme?r.dataset.theme==="dark":matchMedia("(prefers-color-scheme: dark)").matches;r.dataset.theme=dark?"light":"dark"};
+show();
+</script>
+</body>
+</html>
