@@ -28,6 +28,7 @@ button:focus-visible,a:focus-visible,summary:focus-visible,input:focus-visible{o
 .brand span{font-size:.8rem;color:var(--mute)}
 .home{display:flex;align-items:center;gap:8px;padding:7px 10px;border:1px solid var(--line);border-radius:10px;font-size:.88rem;color:var(--mute)}
 .home:hover{color:var(--ink);background:var(--chip)}
+.homes{display:grid;gap:6px}
 .lbl{font-family:"Fira Code",monospace;font-size:.68rem;letter-spacing:.08em;color:var(--mute);padding:0 10px;text-transform:uppercase}
 nav{display:grid;gap:4px}
 nav a{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:10px;border:1px solid transparent;border-left:3px solid transparent;font-weight:500;font-size:.94rem}
@@ -75,7 +76,7 @@ h1{font-size:1.5rem;line-height:1.25;margin:6px 0 4px;font-weight:600;letter-spa
 <div class="app">
  <aside class="side" id="side" aria-label="Programming languages">
   <div class="brand"><b>PROGRAMMING</b><span>ভাষা অনুযায়ী নোট ও রিসোর্স</span></div>
-  <a class="home" href="index.html">← Math Roadmap (Home)</a>
+  <div class="homes"><a class="home" href="index.html">← Home</a><a class="home" href="math.html">∑ Mathematics for CSE</a></div>
   <div class="lbl">Languages</div>
   <nav id="nav"></nav>
   <div class="foot"><button id="th">ডার্ক/লাইট</button></div>
