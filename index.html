@@ -20,7 +20,6 @@
 <style>
   :root {
     --bg: #f3ead6;
-    --hero: #e6d7b3;
     --card: #f8f1df;
     --ink: #221d16;
     --muted: #61574a;
@@ -28,13 +27,11 @@
     --accent: #2d4a3e;
     --accent-ink: #f3ead6;
     --nav: rgba(243, 234, 214, .88);
-    --shadow: 0 8px 22px rgba(70, 50, 20, .09);
     --serif: "Libre Baskerville", Georgia, "Times New Roman", serif;
     --sans: "Hind Siliguri", system-ui, -apple-system, "Segoe UI", sans-serif;
   }
   [data-theme="dark"] {
     --bg: #15120e;
-    --hero: #211c14;
     --card: #1b1711;
     --ink: #efe5cf;
     --muted: #b5a98f;
@@ -42,11 +39,10 @@
     --accent: #b7d3c1;
     --accent-ink: #15120e;
     --nav: rgba(21, 18, 14, .88);
-    --shadow: 0 8px 22px rgba(0, 0, 0, .35);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; scroll-padding-top: 72px; -webkit-text-size-adjust: 100%; }
+  html { -webkit-text-size-adjust: 100%; }
   body {
     font-family: var(--sans);
     font-size: 1.0625rem;
@@ -58,12 +54,9 @@
   a { color: inherit; }
   :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
   svg { display: block; }
-  .wrap { width: min(1120px, 100% - 2.5rem); margin-inline: auto; }
-
+  .wrap { width: min(960px, 100% - 2.5rem); margin-inline: auto; }
   h1, h2, h3 { font-family: var(--serif); font-weight: 700; line-height: 1.2; letter-spacing: -.01em; }
-  h2 { font-size: clamp(1.45rem, 4.2vw, 2rem); margin-bottom: 1.5rem; }
-  h3 { font-size: 1.15rem; }
-  section { padding: 3.5rem 0 0; }
+  h3 { font-size: 1.2rem; }
 
   /* ---------- Navbar ---------- */
   header.nav {
@@ -107,18 +100,9 @@
   }
 
   /* ---------- Hero ---------- */
-  .hero-card {
-    margin-top: 1.5rem;
-    background: var(--hero);
-    border: 1px solid var(--line);
-    border-radius: 6px;
-    display: grid; gap: 1rem;
-    padding: clamp(1.5rem, 5vw, 3.5rem);
-    overflow: hidden;
-  }
-  .hero-copy { align-self: center; }
-  .hero-copy h1 { font-size: clamp(2.1rem, 8vw, 3.9rem); margin-bottom: 1.1rem; }
-  .hero-copy p { color: var(--muted); max-width: 34ch; margin-bottom: 1.8rem; font-size: 1.1rem; }
+  .hero { padding: clamp(3rem, 10vw, 5.5rem) 0 clamp(2rem, 6vw, 3.5rem); }
+  .hero h1 { font-size: clamp(2.1rem, 8vw, 3.6rem); margin-bottom: 1rem; }
+  .hero p { color: var(--muted); max-width: 36ch; margin-bottom: 1.8rem; font-size: 1.1rem; }
   .btns { display: flex; flex-wrap: wrap; gap: .75rem; }
   .btn {
     display: inline-flex; align-items: center; min-height: 46px;
@@ -128,103 +112,36 @@
   }
   .btn.fill { background: var(--ink); color: var(--bg); }
   .btn:hover { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
-  .hero-art { color: var(--ink); min-width: 0; }
-  .hero-art svg { width: 100%; height: auto; max-height: 420px; margin-inline: auto; }
-  .hero-art .draw { stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 2.6s ease-out .2s forwards; }
-  .hero-art .fadein { opacity: 0; animation: fade 1.2s ease-out 1.6s forwards; }
-  @keyframes draw { to { stroke-dashoffset: 0; } }
-  @keyframes fade { to { opacity: 1; } }
-  @media (min-width: 820px) {
-    .hero-card { grid-template-columns: 1fr 1.15fr; align-items: center; }
-  }
 
   /* ---------- Learning paths ---------- */
-  .paths { display: grid; gap: 1.25rem; }
+  .paths { display: grid; gap: 1.25rem; padding-bottom: 1rem; }
   @media (min-width: 720px) { .paths { grid-template-columns: 1fr 1fr; } }
   .card {
     background: var(--card);
     border: 1px solid var(--line);
     border-radius: 6px;
-    box-shadow: var(--shadow);
     padding: 1.6rem;
+    display: flex; flex-direction: column; gap: .8rem;
   }
-  .path-card { display: flex; flex-direction: column; gap: .9rem; }
-  .path-card .ic { width: 56px; height: 56px; color: var(--ink); }
-  .path-card p { color: var(--muted); }
-  .chips { display: flex; flex-wrap: wrap; gap: .45rem; list-style: none; }
-  .chips li { border: 1px solid var(--line); border-radius: 999px; padding: .1rem .75rem; font-size: .92rem; }
+  .card .ic { width: 48px; height: 48px; color: var(--ink); }
+  .card p { color: var(--muted); }
   .more {
-    margin-top: auto; align-self: flex-start;
+    margin-top: .4rem; align-self: flex-start;
     font-weight: 600; text-decoration: none; color: var(--accent);
     border-bottom: 1.5px solid currentColor; padding-bottom: 1px;
   }
   .more:hover { color: var(--ink); }
 
-  /* ---------- Glance ---------- */
-  .glance { display: grid; grid-template-columns: repeat(2, 1fr); border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
-  .glance > div { padding: 1.4rem 1rem; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-  .glance > div:nth-child(2n) { border-right: 0; }
-  .glance > div:nth-last-child(-n+2) { border-bottom: 0; }
-  .glance b { display: block; font-family: var(--serif); font-size: clamp(1.9rem, 6vw, 2.8rem); line-height: 1.1; }
-  .glance span { color: var(--muted); font-size: .98rem; }
-  @media (min-width: 820px) {
-    .glance { grid-template-columns: repeat(4, 1fr); }
-    .glance > div { border-bottom: 0 !important; border-right: 1px solid var(--line) !important; padding-left: 1.5rem; }
-    .glance > div:first-child { padding-left: 0; }
-    .glance > div:last-child { border-right: 0 !important; }
-  }
-
-  /* ---------- Journey ---------- */
-  .journey-d { display: none; color: var(--ink); }
-  .journey-d text { fill: currentColor; font-family: var(--sans); }
-  .journey-d .t { font-size: 15px; font-weight: 600; }
-  .journey-d .s { font-size: 12.5px; opacity: .7; }
-  .journey-m { list-style: none; position: relative; padding-left: 2.2rem; }
-  .journey-m::before { content: ""; position: absolute; left: 7px; top: 8px; bottom: 8px; border-left: 1.5px solid var(--ink); }
-  .journey-m li { position: relative; padding-bottom: 1.4rem; }
-  .journey-m li:last-child { padding-bottom: 0; }
-  .journey-m li::before {
-    content: ""; position: absolute; left: -2.2rem; top: .45rem;
-    width: 15px; height: 15px; border-radius: 50%;
-    background: var(--bg); border: 1.5px solid var(--ink);
-  }
-  .journey-m strong { display: block; font-family: var(--serif); }
-  .journey-m span { color: var(--muted); font-size: .98rem; }
-  @media (min-width: 820px) {
-    .journey-d { display: block; width: 100%; height: auto; }
-    .journey-m { display: none; }
-  }
-
-  /* ---------- Learn cards ---------- */
-  .learn { display: grid; gap: 1.1rem; }
-  @media (min-width: 560px) { .learn { grid-template-columns: 1fr 1fr; } }
-  @media (min-width: 960px) { .learn { grid-template-columns: repeat(4, 1fr); } }
-  .learn .card { padding: 1.4rem; }
-  .learn .ic { width: 44px; height: 44px; margin-bottom: .9rem; color: var(--ink); }
-  .learn h3 { margin-bottom: .4rem; font-size: 1.05rem; }
-  .learn p { color: var(--muted); font-size: .98rem; line-height: 1.6; }
-
   /* ---------- Footer ---------- */
-  footer { margin-top: 4.5rem; border-top: 1px solid var(--line); padding: 2.5rem 0 2rem; }
-  .foot { display: grid; gap: 1.8rem; }
-  @media (min-width: 720px) { .foot { grid-template-columns: 1.3fr 1fr; align-items: start; } }
-  .foot p { color: var(--muted); max-width: 40ch; margin-top: .8rem; }
-  .foot ul { list-style: none; display: grid; gap: .5rem; }
-  @media (min-width: 720px) { .foot ul { justify-items: end; text-align: right; } }
-  .foot ul a { text-decoration: none; border-bottom: 1px solid transparent; }
-  .foot ul a:hover { border-bottom-color: var(--ink); }
-  .copy { margin-top: 2rem; padding-top: 1.2rem; border-top: 1px solid var(--line); color: var(--muted); font-size: .92rem; }
-
-  @media (prefers-reduced-motion: reduce) {
-    html { scroll-behavior: auto; }
-    .hero-art .draw { animation: none; stroke-dashoffset: 0; }
-    .hero-art .fadein { animation: none; opacity: 1; }
-  }
+  footer { margin-top: 3.5rem; border-top: 1px solid var(--line); padding: 1.8rem 0; }
+  .foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; }
+  .foot a.gh { text-decoration: none; border-bottom: 1px solid var(--line); }
+  .foot a.gh:hover { border-bottom-color: var(--ink); }
+  .copy { margin-top: 1rem; color: var(--muted); font-size: .92rem; }
 </style>
 </head>
 <body>
 
-<!-- 1. Navbar -->
 <header class="nav">
   <div class="wrap nav-in">
     <a class="logo" href="index.html" aria-label="CSE Learning Hub home">
@@ -250,10 +167,8 @@
 
 <main>
 
-<!-- 2. Hero -->
-<div class="wrap">
-  <div class="hero-card">
-    <div class="hero-copy">
+  <section class="hero">
+    <div class="wrap">
       <h1>Learn Smarter. Build Stronger.</h1>
       <p>Your complete roadmap to mastering CSE Mathematics and Programming, one step at a time.</p>
       <div class="btns">
@@ -261,184 +176,39 @@
         <a class="btn" href="programming.html">Start Learning C</a>
       </div>
     </div>
+  </section>
 
-    <div class="hero-art" aria-hidden="true">
-      <svg viewBox="0 0 440 340" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-        <!-- towers -->
-        <g class="draw" pathLength="1">
-          <path pathLength="1" d="M30 300V170h46v130"/>
-          <path pathLength="1" d="M40 185v115M53 185v115M66 185v115"/>
-          <path pathLength="1" d="M110 300V100l20-34 20 34v200"/>
-          <path pathLength="1" d="M130 66v234M118 130h24M118 170h24M118 210h24M118 250h24"/>
-          <path pathLength="1" d="M170 300V200h84v100"/>
-          <path pathLength="1" d="M182 300v-62a30 30 0 0 1 60 0v62"/>
-          <path pathLength="1" d="M265 300V60l22-44 22 44v240"/>
-          <path pathLength="1" d="M287 16v284M275 100h24M275 140h24M275 180h24M275 220h24"/>
-          <path pathLength="1" d="M325 300V140h60v160"/>
-          <path pathLength="1" d="M337 155v145M355 155v145M373 155v145"/>
-          <path pathLength="1" d="M385 300V210h35v90"/>
-          <circle pathLength="1" cx="76" cy="130" r="16"/>
-          <circle pathLength="1" cx="212" cy="168" r="18"/>
-          <path pathLength="1" d="M20 306c80-16 140 14 220-6s140-14 190 0"/>
-          <!-- flowing ribbon -->
-          <path pathLength="1" d="M8 330C110 230 190 340 270 240S390 150 432 60"/>
-          <path pathLength="1" d="M8 318C112 214 196 326 274 226S392 134 432 44"/>
-        </g>
-        <!-- symbols fade in after the lines are drawn -->
-        <g class="fadein" fill="currentColor" stroke="none" font-family="Libre Baskerville, Georgia, serif">
-          <text x="203" y="176" font-size="22">∑</text>
-          <text x="69" y="137" font-size="18">π</text>
-          <text x="340" y="104" font-size="30">∫</text>
-          <text x="148" y="46" font-size="15">{ }</text>
-          <text x="392" y="196" font-size="14">C</text>
-        </g>
-      </svg>
-    </div>
-  </div>
-</div>
+  <section>
+    <div class="wrap paths">
 
-<!-- 3. Choose your learning path -->
-<section>
-  <div class="wrap">
-    <h2>Choose your learning path</h2>
-    <div class="paths">
-
-      <article class="card path-card">
+      <article class="card">
         <svg class="ic" viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M8 8v40h40"/><path d="M12 40C20 40 22 14 30 14s10 26 18 26"/><circle cx="30" cy="14" r="2.5"/><path d="M30 14v34" stroke-dasharray="2 3"/>
         </svg>
         <h3>Mathematics for CSE</h3>
         <p>৫২ সপ্তাহের একটি পূর্ণ roadmap। Foundation থেকে শুরু করে CSE-র জন্য দরকারি সব math, ধাপে ধাপে।</p>
-        <ul class="chips">
-          <li>Foundation</li><li>Discrete Mathematics</li><li>Calculus</li><li>Linear Algebra</li><li>Probability &amp; Statistics</li>
-        </ul>
         <a class="more" href="math.html">Explore Roadmap</a>
       </article>
 
-      <article class="card path-card">
+      <article class="card">
         <svg class="ic" viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <rect x="6" y="10" width="44" height="36" rx="3"/><path d="M6 20h44"/><path d="M18 30l-6 5 6 5M38 30l6 5-6 5M31 28l-6 14"/>
         </svg>
         <h3>Programming Languages</h3>
         <p>C দিয়ে শুরু: ১৮টি module, ১৫৬টি lesson। এরপর C++, Java, Python আর JavaScript।</p>
-        <ul class="chips">
-          <li>C</li><li>C++</li><li>Java</li><li>Python</li><li>JavaScript</li>
-        </ul>
         <a class="more" href="programming.html">Explore Roadmap</a>
       </article>
 
     </div>
-  </div>
-</section>
-
-<!-- 4. Learning at a glance -->
-<section>
-  <div class="wrap">
-    <h2>Learning at a glance</h2>
-    <div class="glance">
-      <div><b>52</b><span>Week Mathematics Plan</span></div>
-      <div><b>18</b><span>C Programming Modules</span></div>
-      <div><b>156</b><span>C Lessons</span></div>
-      <div><b>A to Z</b><span>Beginner to Advanced</span></div>
-    </div>
-  </div>
-</section>
-
-<!-- 5. Learning journey -->
-<section>
-  <div class="wrap">
-    <h2>The learning journey</h2>
-
-    <!-- desktop: curved path -->
-    <svg class="journey-d" viewBox="0 0 900 250" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" role="img" aria-label="Fundamentals, Core Concepts, Problem Solving, Advanced Topics, Projects">
-      <path d="M20 120C140 120 140 50 260 50C380 50 340 120 450 120C560 120 570 190 680 190C790 190 780 120 880 120"/>
-      <g fill="var(--bg)">
-        <circle cx="20" cy="120" r="6"/><circle cx="260" cy="50" r="6"/><circle cx="450" cy="120" r="6"/><circle cx="680" cy="190" r="6"/><circle cx="880" cy="120" r="6"/>
-      </g>
-      <g stroke="none">
-        <text class="t" x="20" y="152">Fundamentals</text>
-        <text class="s" x="20" y="171">Basic ধারণা ও syntax</text>
-        <text class="t" x="260" y="26" text-anchor="middle">Core Concepts</text>
-        <text class="s" x="260" y="82" text-anchor="middle">মূল theory ভালো করে বোঝা</text>
-        <text class="t" x="450" y="152" text-anchor="middle">Problem Solving</text>
-        <text class="s" x="450" y="171" text-anchor="middle">অনুশীলন ও চিন্তার অভ্যাস</text>
-        <text class="t" x="680" y="222" text-anchor="middle">Advanced Topics</text>
-        <text class="s" x="680" y="241" text-anchor="middle">গভীর ও জটিল বিষয়</text>
-        <text class="t" x="880" y="152" text-anchor="end">Projects</text>
-        <text class="s" x="880" y="171" text-anchor="end">শেখা জিনিস দিয়ে কিছু বানানো</text>
-      </g>
-    </svg>
-
-    <!-- mobile: vertical path -->
-    <ol class="journey-m">
-      <li><strong>Fundamentals</strong><span>Basic ধারণা ও syntax</span></li>
-      <li><strong>Core Concepts</strong><span>মূল theory ভালো করে বোঝা</span></li>
-      <li><strong>Problem Solving</strong><span>অনুশীলন ও চিন্তার অভ্যাস</span></li>
-      <li><strong>Advanced Topics</strong><span>গভীর ও জটিল বিষয়</span></li>
-      <li><strong>Projects</strong><span>শেখা জিনিস দিয়ে কিছু বানানো</span></li>
-    </ol>
-  </div>
-</section>
-
-<!-- 6. What you will learn -->
-<section>
-  <div class="wrap">
-    <h2>What you will learn</h2>
-    <div class="learn">
-
-      <article class="card">
-        <svg class="ic" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M22 22c-3-6-6-8-9-8a8 8 0 0 0 0 16c3 0 6-2 9-8zm0 0c3 6 6 8 9 8a8 8 0 0 0 0-16c-3 0-6 2-9 8z"/>
-        </svg>
-        <h3>Mathematical Thinking</h3>
-        <p>শুধু formula মুখস্থ নয়, যুক্তি দিয়ে ভাবতে শেখা।</p>
-      </article>
-
-      <article class="card">
-        <svg class="ic" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <rect x="5" y="8" width="34" height="28" rx="3"/><path d="M12 18l5 4-5 4M21 27h9"/>
-        </svg>
-        <h3>Programming Fundamentals</h3>
-        <p>Variable থেকে pointer পর্যন্ত, শক্ত ভিত্তি।</p>
-      </article>
-
-      <article class="card">
-        <svg class="ic" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <circle cx="10" cy="12" r="4"/><circle cx="34" cy="12" r="4"/><circle cx="22" cy="34" r="4"/><path d="M14 12h16M12 15l8 16M32 15l-8 16"/>
-        </svg>
-        <h3>Problem Solving</h3>
-        <p>সমস্যা ভেঙে ছোট করে সমাধান খোঁজার অভ্যাস।</p>
-      </article>
-
-      <article class="card">
-        <svg class="ic" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M22 5l15 8v18l-15 8-15-8V13z"/><path d="M7 13l15 8 15-8M22 21v18"/>
-        </svg>
-        <h3>Practical Projects</h3>
-        <p>যা শিখলে তা দিয়ে বাস্তব কিছু বানানো।</p>
-      </article>
-
-    </div>
-  </div>
-</section>
+  </section>
 
 </main>
 
-<!-- 7. Footer -->
 <footer>
   <div class="wrap">
     <div class="foot">
-      <div>
-        <a class="logo" href="index.html"><span class="sigma" aria-hidden="true">∑</span><span>CSE Learning Hub</span></a>
-        <p>CSE শিক্ষার্থীদের জন্য Mathematics ও Programming-এর একটি ধাপে ধাপে roadmap।</p>
-      </div>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="math.html">Mathematics</a></li>
-        <li><a href="programming.html">Programming</a></li>
-        <li><a href="programming.html">C Curriculum</a></li>
-        <li><a href="https://github.com/rqkeebhasan-png/math-roadmap" target="_blank" rel="noopener">GitHub</a></li>
-      </ul>
+      <a class="logo" href="index.html"><span class="sigma" aria-hidden="true">∑</span><span>CSE Learning Hub</span></a>
+      <a class="gh" href="https://github.com/rqkeebhasan-png/math-roadmap" target="_blank" rel="noopener">GitHub</a>
     </div>
     <p class="copy">Copyright © 2026 CSE Learning Hub</p>
   </div>
