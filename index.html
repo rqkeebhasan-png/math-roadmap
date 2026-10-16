@@ -35,7 +35,13 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--c2);outline-offset:
 .top a.l{font-size:.88rem;color:var(--mute);padding:5px 10px;border-radius:10px;border:1px solid transparent}
 .top a.l:hover{background:var(--chip);color:var(--ink)}
 .top a.l[aria-current="page"]{background:var(--chip);border-color:var(--line);color:var(--ink)}
-@media (max-width:520px){.top a.l.hide-sm{display:none}}
+#th{white-space:nowrap;flex:none}
+@media (max-width:520px){
+ .brand{display:none}
+ .top-in{gap:4px;padding:10px 10px}
+ .top a.l{padding:5px 8px;font-size:.84rem}
+ #th{margin-left:auto;padding:5px 10px;font-size:.8rem}
+}
 
 /* content */
 main{max-width:820px;margin:0 auto;padding:28px 14px 64px}
@@ -55,6 +61,12 @@ h1{font-size:1.5rem;line-height:1.25;margin:6px 0 4px;font-weight:600;letter-spa
 .card p{margin:0 0 8px;color:var(--mute);font-size:.92rem}
 .card .go{font-size:.88rem;font-weight:600;color:var(--k)}
 
+h2.h2{font-size:1rem;font-weight:600;margin:28px 0 10px}
+.start{display:grid;gap:8px}
+.start a{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-left:3px solid var(--k);border-radius:12px;background:var(--card);padding:10px 14px;font-size:.92rem}
+.start a:hover{background:var(--chip)}
+.start b{font-weight:600;color:var(--k)}
+.start span{margin-left:auto;color:var(--mute);font-size:.8rem;text-align:right}
 footer{max-width:820px;margin:0 auto;padding:18px 14px 40px;border-top:1px solid var(--line);color:var(--mute);font-size:.85rem;display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center}
 footer .sp{margin-left:auto}
 footer a:hover{color:var(--ink)}
@@ -92,6 +104,13 @@ footer a:hover{color:var(--ink)}
     <p>C দিয়ে শুরু। এরপর C++, Java, Python আর JavaScript।</p>
     <span class="go">Open roadmap →</span>
   </a>
+  <h2 class="h2">কোথা থেকে শুরু করবেন?</h2>
+  <div class="start">
+    <a href="math.html#arith" style="--k:var(--c0)"><b>একদম শুরু থেকে</b><span>Arithmetic · সপ্তাহ ১</span></a>
+    <a href="math.html#logic" style="--k:var(--c1)"><b>CSE-র core math</b><span>Discrete: Logic · সপ্তাহ ২০</span></a>
+    <a href="math.html#vec" style="--k:var(--c3)"><b>AI / ML math</b><span>Linear Algebra: Vectors · সপ্তাহ ৩৯</span></a>
+    <a href="programming.html#c" style="--k:var(--c2)"><b>Programming</b><span>C দিয়ে শুরু</span></a>
+  </div>
 </main>
 
 <footer>
