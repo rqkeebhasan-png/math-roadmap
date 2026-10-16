@@ -87,13 +87,30 @@ details[open]>summary::before{transform:rotate(90deg)}
 #md input{width:100%;font:inherit;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
 #md .err{color:#d33;min-height:1.4em;margin:6px 0;font-size:.9rem}
 #md .row{display:flex;gap:8px;justify-content:flex-end}
+
+/* search */
+.find{display:flex;gap:8px;align-items:center;margin:0 0 14px}
+.find input{flex:1;min-width:0;font:inherit;font-size:.92rem;padding:8px 14px;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--ink)}
+.find small{color:var(--mute);font-size:.8rem;white-space:nowrap}
+
+/* print */
+@media print{
+ :root,:root[data-theme="dark"]{--bg:#fff;--card:#fff;--ink:#000;--mute:#444;--line:#bbb;--chip:#fff;
+ --c0:#2f8f5f;--c1:#d2622a;--c2:#2563eb;--c3:#7c4dff;--c4:#c08a14;--c5:#0f8a7e;--c6:#6b7280}
+ body{background:#fff}
+ .tools,.find,#mapd,#md,.rel{display:none!important}
+ main{max-width:none;padding:0}
+ .ph{box-shadow:none;overflow:visible}
+ .t{break-inside:avoid}
+}
 </style>
 </head>
 <body>
 <main>
 <h1>MATHEMATICS FOR CSE</h1>
 <p class="sub">৫২ সপ্তাহ · দিনে ১.৫–২ ঘণ্টা · সপ্তাহে ৬ দিন পড়া + ১ দিন রিভিশন। প্রতিটি শাখার পাশে সপ্তাহ লেখা আছে। টপিক শেষ হলে টিক দিন।</p>
-<div class="tools"><button id="ex">সব খুলুন</button><button id="co">সব বন্ধ করুন</button><button id="th">ডার্ক/লাইট</button></div>
+<div class="tools"><button id="ex">সব খুলুন</button><button id="co">সব বন্ধ করুন</button><button id="th">ডার্ক/লাইট</button><button id="pr">প্রিন্ট</button></div>
+<div class="find"><input id="q" type="search" placeholder="টপিক খুঁজুন… (যেমন: matrix, Bayes, ২৪)" aria-label="টপিক খুঁজুন" autocomplete="off"><small id="qn"></small></div>
 <details class="map" id="mapd" open><summary>Prerequisite map <span class="wk">কোনটির আগে কোনটি</span></summary>
 <p class="hint">যেকোনো topic-এ ট্যাপ করুন — তার আগের ও পরের সম্পর্ক highlight হবে। ডানে স্ক্রল করুন →</p>
 <div class="legend" id="lg"></div>
@@ -277,7 +294,7 @@ document.querySelectorAll(".rel").forEach(function(el){var k=el.getAttribute("da
  h+='<div class="rr"><span class="rl">আগে শিখুন</span>'+(pre.length?chips(pre):'<span class="none">কিছু নেই — এখান থেকেই শুরু</span>')+'</div>';
  if(nx.length)h+='<div class="rr"><span class="rl">এরপর শিখুন</span>'+chips(nx)+'</div>';
  if(rel.length)h+='<div class="rr"><span class="rl">সম্পর্কিত</span>'+chips(rel)+'</div>';
- h+='<div class="rr"><button class="chip ghost" data-map="'+k+'">map-এ দেখুন ↑</button></div>';
+ h+='<div class="rr"><button class="chip ghost" data-map="'+k+'">map-এ দেখুন ↑</button><button class="chip ghost" data-copy="'+k+'">🔗 লিংক কপি</button></div>';
  el.innerHTML=h});
 
 // ---- prerequisite map (SVG) ----
@@ -342,7 +359,55 @@ document.addEventListener("keydown",function(e){if(e.key==="Escape")closeM()});
 $("ex").onclick=function(){document.querySelectorAll("#root details").forEach(function(x){x.open=true})};
 $("co").onclick=function(){document.querySelectorAll("#root details").forEach(function(x){x.open=false})};
 $("th").onclick=function(){var r=document.documentElement;r.dataset.theme=r.dataset.theme==="dark"?"light":"dark"};
+// ---- search ----
+var qi=$("q"),qn=$("qn"),snap=null,mapWas=null;
+function lc(el){return((el&&el.textContent)||"").toLowerCase()}
+function runSearch(){
+ var q=qi.value.trim().toLowerCase(),
+  boxes=[].slice.call(root.querySelectorAll("details")),
+  lv=[].slice.call(root.querySelectorAll(".t")),
+  cs=[].slice.call(root.querySelectorAll(".node,details.ph"));
+ if(!q){
+  lv.concat(cs).forEach(function(x){x.style.display=""});
+  if(snap){boxes.forEach(function(d,i){d.open=snap[i]});snap=null}
+  if(mapWas!==null){$("mapd").open=mapWas;mapWas=null}
+  qn.textContent="";return}
+ if(!snap)snap=boxes.map(function(d){return d.open});
+ if(mapWas===null)mapWas=$("mapd").open;
+ $("mapd").open=false;
+ lv.forEach(function(t){t.style.display=lc(t.querySelector("label")).indexOf(q)>=0?"":"none"});
+ var own=cs.map(function(c){return lc(c.querySelector("summary")).indexOf(q)>=0});
+ cs.forEach(function(c,i){if(own[i])c.querySelectorAll(".t,.node").forEach(function(x){x.style.display=""})});
+ for(var i=cs.length-1;i>=0;i--){var c=cs[i],
+  vis=own[i]||[].some.call(c.querySelectorAll(".t"),function(t){return t.style.display!=="none"});
+  c.style.display=vis?"":"none";
+  if(vis){var d=c.tagName==="DETAILS"?c:c.querySelector("details");if(d)d.open=true}}
+ var n=lv.filter(function(t){return t.style.display!=="none"}).length;
+ qn.textContent=n?n+" টি টপিক":"কিছু পাওয়া যায়নি"}
+qi.addEventListener("input",runSearch);
+
+// ---- deep links: math.html#<key>  (key = section id, e.g. #logic, #vec) ----
+var _goTo=goTo;
+goTo=function(k){_goTo(k);try{history.replaceState(null,"","#"+k)}catch(e){}};
+function hashGo(){var k="";try{k=decodeURIComponent((location.hash||"").slice(1))}catch(e){}
+ if(k&&NK[k]){sel(k);goTo(k)}}
+window.addEventListener("hashchange",hashGo);
+document.addEventListener("click",function(e){var b=e.target.closest?e.target.closest("[data-copy]"):null;if(!b)return;
+ var k=b.getAttribute("data-copy"),u=location.href.split("#")[0]+"#"+k;
+ function ok(){var o=b.textContent;b.textContent="✓ কপি হয়েছে";setTimeout(function(){b.textContent=o},1500)}
+ function fb(){window.prompt("লিংক কপি করুন",u)}
+ if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(u).then(ok,fb)}else fb()});
+
+// ---- print: open everything, then restore ----
+var pOpen=null;
+$("pr").onclick=function(){window.print()};
+window.addEventListener("beforeprint",function(){var ds=[].slice.call(document.querySelectorAll("#root details"));
+ pOpen=ds.map(function(d){return d.open});ds.forEach(function(d){d.open=true})});
+window.addEventListener("afterprint",function(){if(!pOpen)return;
+ [].slice.call(document.querySelectorAll("#root details")).forEach(function(d,i){d.open=pOpen[i]});pOpen=null});
+
 sel("der");
+hashGo();
 </script>
 <script>(function(){var t=document.querySelector(".tools");if(!t)return;var a=document.createElement("a");a.href="programming.html";a.textContent="Programming →";a.style.cssText="font:inherit;font-size:.85rem;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:5px 14px;text-decoration:none;display:inline-block";t.appendChild(a)})();</script>
 <script>(function(){var t=document.querySelector(".tools");if(!t)return;var a=document.createElement("a");a.href="index.html";a.textContent="← Home";a.style.cssText="font:inherit;font-size:.85rem;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:5px 14px;text-decoration:none;display:inline-block";t.insertBefore(a,t.firstChild)})();</script>
